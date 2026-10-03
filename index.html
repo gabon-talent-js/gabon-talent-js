@@ -82,31 +82,90 @@ function renderJobs(list){
   `).join('');
 }
 renderJobs(JOBS);
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gabon Talent OS - L'OS de l'Emploi</title>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<style>
+:root{--dark:#0f172a;--green:#22c55e;--bg:#f8fafc}*{margin:0;padding:0;box-sizing:border-box}body{font-family:Inter,system-ui,sans-serif;background:var(--bg);color:var(--dark)}
+header{background:var(--dark);color:#fff;padding:12px 16px;position:sticky;top:0;z-index:99;display:flex;justify-content:space-between;align-items:center}
+nav a{color:#fff;text-decoration:none;margin-left:10px;font-size:12px;opacity:.6;font-weight:700;cursor:pointer}nav a.active{opacity:1;border-bottom:2px solid var(--green)}
+.hero{background:linear-gradient(135deg,#0f172a,#1e293b);color:#fff;padding:32px 16px;text-align:center}
+.card{background:#fff;border-radius:16px;padding:16px;border:1px solid #e2e8f0;margin-bottom:12px}
+.btn{display:flex;justify-content:center;align-items:center;padding:12px;border-radius:10px;font-weight:700;text-decoration:none;border:0;cursor:pointer;width:100%;font-size:14px}
+.btn-green{background:var(--green);color:#fff}.btn-dark{background:var(--dark);color:#fff}.btn-white{background:#fff;border:1px solid #e2e8f0;color:var(--dark)}
+.modal{position:fixed;inset:0;background:rgba(0,0,0,.6);display:none;align-items:center;justify-content:center;z-index:100;padding:12px}.modal.active{display:flex}.modal-box{background:#fff;border-radius:20px;width:100%;max-width:500px;padding:20px;max-height:90vh;overflow:auto}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:8px}.pack{border:2px solid #e2e8f0;border-radius:14px;padding:14px;text-align:center;cursor:pointer}.pack.best{border-color:var(--green);background:#f0fdf4}
+.container{max-width:700px;margin:0 auto;padding:12px}
+input{width:100%;padding:12px;border-radius:8px;border:1px solid #ddd;margin:6px 0}
+</style>
+</head>
+<body>
+<header><b>🇬🇦 Gabon Talent <span style="color:#22c55e">OS</span></b><nav><a id="nav-offres" class="active" onclick="showTab('offres')">Offres</a><a id="nav-entreprise" onclick="showTab('entreprise')">Entreprise</a><a id="nav-candidat" onclick="showTab('candidat')">Candidat</a></nav></header>
+
+<div id="tab-offres"><div class="hero"><h1 style="font-size:26px">Toutes les offres du Gabon<br><span style="color:#22c55e">dans un seul OS</span></h1><p style="opacity:.7;margin-top:8px;font-size:13px">Scan auto Facebook • LinkedIn • gabonemploi.net • MAJ 07h00</p></div><div class="container" id="list"><p style="text-align:center;padding:30px">⏳ Chargement des offres depuis Supabase...</p></div></div>
+
+<div id="tab-entreprise" style="display:none"><div class="container"><div class="card"><h2>🏢 Espace Entreprise - 2500 FCFA / offre</h2><p style="font-size:13px;color:#64748b;margin:8px 0">Publiez votre offre. Paiement = publication instantanée.</p><input id="e_title" placeholder="Titre du poste ex: Comptable"><input id="e_company" placeholder="Nom de votre entreprise"><input id="e_city" placeholder="Ville: Libreville, POG..."><input id="e_email" placeholder="Email RH pour recevoir les CV"><textarea id="e_desc" placeholder="Description du poste" style="width:100%;padding:12px;border-radius:8px;border:1px solid #ddd;margin:6px 0"></textarea><button class="btn btn-green" style="margin-top:10px" onclick="payer('ENTREPRISE')">Payer 2500 FCFA & Publier l'offre</button><p style="font-size:11px;color:#94a3b8;margin-top:8px">LIEN DE PAIEMENT: Remplace dans le code PAY.ENTREPRISE</p></div></div></div>
+
+<div id="tab-candidat" style="display:none"><div class="container"><div class="card"><h2>👤 Espace Candidat</h2><p style="font-size:13px;color:#666;margin:8px 0">Gère ton CV Pro et tes candidatures automatiques.</p><div style="background:#f8fafc;padding:12px;border-radius:10px;margin:10px 0"><b>Mes packs achetés:</b><br><span style="font-size:13px;color:#94a3b8">Aucun pack pour le moment.</span></div><button class="btn btn-dark" onclick="payer('CV_1000')">Créer CV Pro - 1000 FCFA</button></div></div></div>
+
+<div id="modal" class="modal" onclick="if(event.target==this)closeM()"><div class="modal-box" id="modalBox"></div></div>
+
+<script>
+// ============== CONFIG PAIEMENT - REMPLACE PAR TES LIENS WAVE / AIRTEL MONEY ==============
+const PAY = {
+  CV_1000: "https://pay.wave.com/TON_LIEN_1000",
+  PACK_2000: "https://pay.wave.com/TON_LIEN_2000",
+  AUTO_5000: "https://pay.wave.com/TON_LIEN_5000",
+  ENTREPRISE: "https://pay.wave.com/TON_LIEN_2500"
+};
+function payer(type){ window.open(PAY[type], '_blank'); }
+// ============== CONFIG SUPABASE - DEJA REMPLI AVEC TES CLES ==============
+const SUPABASE_URL = "https://dsjtbpcerjxpbxuxiuf.supabase.co";
+const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRzanRicGNlcmp4cGJieHV4aXVmIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTEwMzAzODYsImV4cCI6MjEwNjYwNjM4Nn0.stSO21CCayobN_KaFucZqVrQjXwVVFyvSv0q5n5Yz6s";
+const sb = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+async function loadJobs(){
+  const { data, error } = await sb.from('jobs').select('*').order('created_at', {ascending:false});
+  if(error){ document.getElementById('list').innerHTML = "Erreur: "+error.message; return; }
+  if(!data || data.length==0){
+    document.getElementById('list').innerHTML = "<div class='card' style='text-align:center;padding:30px'><b>Aucune offre pour le moment</b><br><span style='font-size:13px;color:#888'>Va dans GitHub > Actions > Robot 07h Gabon > Run workflow pour lancer le premier scan.</span></div>";
+    return;
+  }
+  document.getElementById('list').innerHTML = data.map(j=>`
+    <div class="card" onclick="openJob(${j.id})" style="cursor:pointer">
+      <div style="display:flex;justify-content:space-between"><span style="font-size:10px;font-weight:800;background:#dcfce7;padding:4px 10px;border-radius:20px">${j.tag} • ${j.source}</span><span style="font-size:11px;color:#94a3b8">Scan auto</span></div>
+      <h3 style="margin:8px 0 4px">${j.title}</h3><div style="font-size:13px;color:#64748b">📍 ${j.city} • 🏢 ${j.company} • 💰 ${j.salary}</div>
+    </div>
+  `).join('');
+  window.JOBS_DATA = data;
+}
+loadJobs();
 
 function openJob(id){
-  const j = JOBS.find(x=>x.id==id);
-  document.getElementById('modal-content').innerHTML = `
-    <h2>${j.title}</h2><p style="color:#64748b;font-size:13px;margin:6px 0 12px">📍 ${j.city} • ${j.company} • Source: ${j.source}</p>
-    <div style="background:#f8fafc;padding:12px;border-radius:10px;font-size:14px;line-height:1.5">${j.desc}<br><br><b>Lien original:</b> <a href="${j.link}" target="_blank">${j.link}</a></div>
-    <h3 style="margin:18px 0 10px">Choisis ton pack pour postuler :</h3>
+  const j = window.JOBS_DATA.find(x=>x.id==id);
+  document.getElementById('modalBox').innerHTML = `
+    <h2>${j.title}</h2><p style="font-size:13px;color:#666">${j.company} • ${j.city}</p>
+    <div style="background:#f8fafc;padding:12px;border-radius:10px;margin:12px 0;font-size:14px;line-height:1.5">${j.description}<br><br><b>Source originale:</b> <a href="${j.source_url}" target="_blank">${j.source_url}</a><br><b>Contact RH:</b> ${j.email_rh}</div>
+    <h3 style="margin:12px 0">Choisis ton pack :</h3>
     <div class="grid2">
-      <div class="pack" onclick="pay('CV_1000')"><b>CV Pro</b><br><span style="font-size:22px;font-weight:800">1000</span> FCFA<br><span style="font-size:11px;color:#64748b">Création CV pro PDF</span></div>
-      <div class="pack best" onclick="pay('CV_PACK_2000')"><b>CV + Lien Direct</b><br><span style="font-size:22px;font-weight:800">2000</span> FCFA<br><span style="font-size:11px">CV + envoi auto vers ${j.email}</span></div>
+      <div class="pack" onclick="payer('CV_1000')"><b>CV Pro</b><br><b>1000</b> FCFA<br><span style="font-size:11px">PDF Pro</span></div>
+      <div class="pack best" onclick="payer('PACK_2000')"><b>CV + Lien Direct</b><br><b>2000</b> FCFA<br><span style="font-size:11px">Envoi auto à ${j.email_rh}</span></div>
     </div>
-    <div class="pack" style="margin-top:10px" onclick="pay('AUTO_APPLY_5000')"><b>🔥 Pack Automatique 10 Candidatures</b><br><span style="font-size:22px;font-weight:800">5000</span> FCFA<br><span style="font-size:12px;color:#64748b">On postule pour toi à 10 offres similaires automatiquement</span></div>
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:16px">
-      <a class="btn btn-white" href="mailto:${j.email}?subject=Candidature ${j.title}">📧 Email direct (gratuit)</a>
-      <a class="btn btn-dark" href="${j.link}" target="_blank">🔗 Voir source</a>
+    <div class="pack" style="margin-top:8px;border-color:var(--dark)" onclick="payer('AUTO_5000')"><b>🔥 Pack 10 Candidatures Auto - 5000 FCFA</b><br><span style="font-size:11px;color:#64748b">On postule pour toi dans 10 entreprises. Zéro manipulation.</span></div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:12px">
+      <a class="btn btn-white" href="mailto:${j.email_rh}?subject=Candidature ${j.title}">📧 Email Gratuit</a>
+      <a class="btn btn-dark" href="${j.source_url}" target="_blank">🔗 Lien Officiel</a>
     </div>
-    <p style="font-size:11px;color:#94a3b8;text-align:center;margin-top:10px">Après paiement, redirection automatique vers le recruteur. Preuve de paiement exigée.</p>
-    <button class="btn btn-white" style="width:100%;margin-top:12px" onclick="closeModal()">Fermer</button>
+    <button class="btn btn-white" style="margin-top:10px" onclick="closeM()">Fermer</button>
+    <p style="font-size:10px;color:#94a3b8;text-align:center;margin-top:10px">Après paiement, redirection automatique vers le lien souhaité. Le pack 5000 postule automatiquement.</p>
   `;
   document.getElementById('modal').classList.add('active');
 }
-function closeModal(){document.getElementById('modal').classList.remove('active')}
-function openPack(){openJob(1)}
-function showTab(t){document.getElementById('tab-offres').style.display=t=='offres'?'block':'none';document.getElementById('tab-candidat').style.display=t=='candidat'?'block':'none';document.getElementById('tab-entreprise').style.display=t=='entreprise'?'block':'none';document.querySelectorAll('nav a').forEach(a=>a.classList.remove('active'));document.getElementById('nav-'+t)?.classList.add('active')}
-function filterJobs(){const q=document.getElementById('search').value.toLowerCase();renderJobs(JOBS.filter(j=>j.title.toLowerCase().includes(q) || j.city.toLowerCase().includes(q)))}
+function closeM(){document.getElementById('modal').classList.remove('active')}
+function showTab(t){document.getElementById('tab-offres').style.display=t=='offres'?'block':'none';document.getElementById('tab-entreprise').style.display=t=='entreprise'?'block':'none';document.getElementById('tab-candidat').style.display=t=='candidat'?'block':'none';document.querySelectorAll('nav a').forEach(a=>a.classList.remove('active'));document.getElementById('nav-'+t).classList.add('active'); if(t=='offres') loadJobs();}
 </script>
 </body>
 </html>
