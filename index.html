@@ -1,18 +1,10 @@
 <!DOCTYPE html>
-<html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Gabon Talent - Offres d'emploi</title>
-<style>body{font-family:sans-serif;max-width:700px;margin:auto;padding:20px;background:#f5f7fb}h1{color:#0b3d91}.card{background:white;padding:15px;border-radius:12px;margin:10px 0;box-shadow:0 2px 8px #0001}.badge{background:#e6eefd;color:#0b3d91;padding:3px 8px;border-radius:20px;font-size:12px}</style>
-</head><body>
-<h1>🇬🇦 Gabon Talent</h1>
-<p>Offres vérifiées au Gabon - mise à jour automatique</p>
-<div id="offres">Chargement...</div>
-<script>
-const URL = "https://dsjtbpcerjxpbxuxiuf.supabase.co";
-const KEY = "COLLE-ICI-TA-CLE-ANON-EyJ..."; // <-- eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRzanRicGNlcmp4cGJieHV4aXVmIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTEwMzAzODYsImV4cCI6MjEwNjYwNjM4Nn0.stSO21CCayobN_KaFucZqVrQjXwVVFyvSv0q5n5Yz6s
-fetch(URL+"/rest/v1/offres?select=*&order=created_at.desc",{headers:{apikey:KEY,Authorization:"Bearer "+KEY}})
-.then(r=>r.json()).then(data=>{
-document.getElementById("offres").innerHTML = data.map(o=>`
-<div class="card"><b>${o.titre}</b> <span class="badge">${o.ville}</span><br>${o.entreprise}<br><small>${o.description||""}</small></div>`).join("") || "Pas d'offres pour l'instant, lance le robot.";
-});
-</script>
-</body></html>
+<html>
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width"><title>Gabon Talent OS</title></head>
+<body style="font-family:sans-serif;text-align:center;padding:50px;background:#f8fafc">
+<h1>🇬🇦 Gabon Talent OS</h1>
+<h2 style="color:green">✓ SITE EN LIGNE !</h2>
+<p>Tous les emplois du Gabon</p>
+<p>Ton site marche !</p>
+</body>
+</html>
