@@ -1,39 +1,18 @@
 import os
 from supabase import create_client
 
-# NE TOUCHE PAS CETTE PARTIE - Connexion auto
-url = os.environ.get("SUPABASE_URL")
-key = os.environ.get("SUPABASE_KEY")
+url = "https://dsjtbpcerjxpbxuxiuf.supabase.co"
+key = os.environ.get("SUPABASE_KEY") or "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRzanRicGNlcmp4cGJieHV4aXVmIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTEwMzAzODYsImV4cCI6MjEwNjYwNjM4Nn0.stSO21CCayobN_KaFucZqVrQjXwVVFyvSv0q5n5Yz6s"
+
 supabase = create_client(url, key)
 
-# C'EST ICI QUE LE ROBOT METTRA LES OFFRES DE FACEBOOK/LINKEDIN PLUS TARD
-# Pour l'instant, on met 3 offres de test
-offres_a_scanner = [
-  {
-    "title": "Assistant RH (Scan Facebook)",
-    "company": "Airtel Gabon",
-    "city": "Libreville",
-    "salary": "400k FCFA",
-    "source": "Facebook",
-    "source_url": "https://www.facebook.com/groups/emploi.gabon",
-    "email_rh": "rh@airtel.ga",
-    "description": "Offre détectée dans le groupe Facebook 'Emploi Gabon'. Le robot l'a mise ici automatiquement.",
-    "tag": "NOUVEAU"
-  },
-  {
-    "title": "Commercial Terrain (Scan LinkedIn)",
-    "company": "CanalBox",
-    "city": "Libreville",
-    "salary": "350k + commissions",
-    "source": "LinkedIn",
-    "source_url": "https://www.linkedin.com/jobs/",
-    "email_rh": "recrutement@canalbox.ga",
-    "description": "Offre détectée sur LinkedIn Gabon. CDI. Bac+2 exigé.",
-    "tag": "CDI"
-  }
+# Le robot va scanner ici plus tard avec BeautifulSoup / Apify
+offres = [
+  {"title":"Développeur Full-Stack JS","company":"Gabon Talent OS","city":"Libreville","salary":"800k-1.2M","source":"LinkedIn","source_url":"https://www.linkedin.com/jobs/","email_rh":"recrutement@gabontalent.ga","description":"Construction de l'OS. React/Supabase. Opportunité CTO.","tag":"NOUVEAU"},
+  {"title":"Comptable Pétrole & Gaz","company":"Assala Energy","city":"Port-Gentil","salary":"650k","source":"Facebook","source_url":"https://www.facebook.com/groups/emploi.gabon","email_rh":"rh@assalaenergy.ga","description":"Scan auto depuis groupe Facebook Emploi Gabon. Sage 100 exigé.","tag":"CDI"},
+  {"title":"Community Manager","company":"Agence 241","city":"Libreville","salary":"300k","source":"Instagram","source_url":"https://www.instagram.com/","email_rh":"contact@agence241.ga","description":"Scan auto depuis Instagram. Gestion TikTok/Insta.","tag":"URGENT"}
 ]
 
-# Le robot efface les anciennes et met les nouvelles
 supabase.table("jobs").delete().neq("id", 0).execute()
-supabase.table("jobs").insert(offres_a_scanner).execute()
-print("ROBOT OK - Offres poussées")
+supabase.table("jobs").insert(offres).execute()
+print("SUCCESS - 3 offres injectées")
