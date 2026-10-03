@@ -1,89 +1,112 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Gabon Talent OS | Emplois au Gabon</title>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gabon Talent OS - L'OS de l'Emploi</title>
 <style>
-*{margin:0;padding:0;box-sizing:border-box}
-body{font-family:-apple-system,BlinkMacSystemFont,sans-serif;background:#f8fafc;color:#0f172a}
-.header{background:linear-gradient(135deg,#0f172a 0%,#1e293b 100%);color:white;padding:28px 20px;text-align:center}
-.header h1{font-size:26px}.header span{color:#22c55e}
-.live{display:inline-flex;align-items:center;gap:6px;background:rgba(34,197,94,.15);color:#22c55e;padding:6px 12px;border-radius:20px;font-size:11px;font-weight:bold;margin-top:12px}
-.dot{width:8px;height:8px;background:#22c55e;border-radius:50%}
-.search{max-width:500px;margin:18px auto 0 auto;background:white;border-radius:12px;padding:5px;display:flex}
-.search input{flex:1;border:0;padding:12px;outline:none}.search button{background:#0f172a;color:white;border:0;padding:10px 18px;border-radius:8px}
-.container{max-width:600px;margin:0 auto;padding:16px}
-.stats{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:16px}
-.stat{background:white;padding:14px;border-radius:12px;text-align:center;border:1px solid #e2e8f0}
-.stat b{font-size:18px;display:block}.stat span{font-size:11px;color:#64748b}
-.card{background:white;border-radius:16px;padding:18px;margin-bottom:14px;border:1px solid #e2e8f0}
-.top-row{display:flex;justify-content:space-between;margin-bottom:8px}
-.tag{font-size:10px;font-weight:800;padding:4px 10px;border-radius:20px}
-.green{background:#dcfce7;color:#166534}.blue{background:#dbeafe;color:#1e40af}.orange{background:#ffedd5;color:#9a3412}
-.time{font-size:12px;color:#94a3b8}
-.card h3{font-size:17px;margin-bottom:4px}.meta{font-size:13px;color:#64748b;margin-bottom:10px}
-.desc{font-size:14px;color:#334155;line-height:1.5;background:#f8fafc;padding:10px;border-radius:8px;margin-bottom:14px}
-.apply-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
-.btn{display:flex;justify-content:center;align-items:center;gap:6px;padding:12px;border-radius:10px;text-decoration:none;font-weight:600;font-size:13px;border:1px solid transparent}
-.btn-wa{background:#0f172a;color:white}
-.btn-email{background:white;color:#0f172a;border-color:#e2e8f0}
-.btn-link{background:#22c55e;color:white;grid-column:span 2}
-.btn-small{font-size:11px;color:#64748b;text-align:center;margin-top:10px;display:block;cursor:pointer}
-.footer{text-align:center;padding:30px;color:#94a3b8;font-size:12px}
+:root{--dark:#0f172a;--green:#22c55e;--bg:#f8fafc}
+*{margin:0;padding:0;box-sizing:border-box}body{font-family:Inter,system-ui,sans-serif;background:var(--bg);color:var(--dark)}
+header{background:var(--dark);color:white;padding:14px 20px;position:sticky;top:0;z-index:50;display:flex;justify-content:space-between;align-items:center}
+nav a{color:white;text-decoration:none;margin-left:16px;font-size:13px;font-weight:600;opacity:.8}nav a.active{opacity:1;border-bottom:2px solid var(--green)}
+.hero{background:linear-gradient(135deg,#0f172a,#1e293b);color:white;padding:40px 20px;text-align:center}
+.btn{display:inline-flex;align-items:center;justify-content:center;padding:12px 20px;border-radius:10px;font-weight:700;text-decoration:none;cursor:pointer;border:0}
+.btn-green{background:var(--green);color:white}.btn-dark{background:var(--dark);color:white}.btn-white{background:white;color:var(--dark);border:1px solid #e2e8f0}
+.container{max-width:900px;margin:0 auto;padding:16px}
+.card{background:white;border-radius:16px;padding:18px;border:1px solid #e2e8f0;margin-bottom:14px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.pack{border:2px solid #e2e8f0;border-radius:16px;padding:18px;text-align:center;cursor:pointer;transition:.2s}.pack:hover{border-color:var(--dark);transform:translateY(-2px)}
+.pack.best{border-color:var(--green);background:#f0fdf4}
+.modal{position:fixed;inset:0;background:rgba(0,0,0,.6);display:none;align-items:center;justify-content:center;z-index:100;padding:16px}
+.modal.active{display:flex}.modal-box{background:white;border-radius:20px;max-width:500px;width:100%;padding:24px;max-height:90vh;overflow-y:auto}
 </style>
 </head>
 <body>
-<div class="header">
-<h1>🇬🇦 Gabon Talent <span>OS</span></h1>
-<p style="opacity:.8;margin-top:6px;font-size:14px">L'OS de l'emploi gabonais</p>
-<div class="live"><div class="dot"></div> ROBOT ACTIF • MAJ AUTO 07:00</div>
-<div class="search"><input id="q" placeholder="Rechercher..."><button onclick="alert('Filtre bientôt actif !')">🔍</button></div>
-</div>
-<div class="container">
-<div class="stats"><div class="stat"><b>127</b><span>Offres actives</span></div><div class="stat"><b>24h</b><span>Mise à jour</span></div><div class="stat"><b>100%</b><span>Gratuit</span></div></div>
 
-<!-- OFFRE 1 -->
-<div class="card">
-<div class="top-row"><span class="tag green">NOUVEAU</span><span class="time">Il y a 2h</span></div>
-<h3>Développeur Full-Stack JS</h3>
-<div class="meta">📍 Libreville • 💰 800k - 1.2M • 🏢 Gabon Talent JS</div>
-<div class="desc">On construit Gabon Talent OS. Stack: React, Supabase, GitHub Actions.</div>
-<div class="apply-grid">
-<a class="btn btn-wa" href="https://wa.me/24100000000?text=Je%20postule%20Dev%20FullStack">💬 WhatsApp</a>
-<a class="btn btn-email" href="mailto:recrutement@gabontalent.ga?subject=Candidature%20Dev%20Full-Stack%20JS%20-%20Gabon%20Talent%20OS&body=Bonjour,%0AJe%20postule%20pour%20le%20poste%20de%20D%C3%A9veloppeur%20Full-Stack%20vu%20sur%20Gabon%20Talent%20OS.%0A%0AMon%20CV%20ci-joint.%0A%0ACordialement,">📧 Email</a>
-<a class="btn btn-link" href="https://www.linkedin.com/" target="_blank">🔗 Postuler sur le site officiel</a>
-</div>
-<span class="btn-small" onclick="navigator.clipboard.writeText(window.location.href);alert('Lien copié !')">📋 Copier le lien de l'offre</span>
-</div>
+<header>
+<b>🇬🇦 Gabon Talent <span style="color:#22c55e">OS</span></b>
+<nav>
+<a href="#" onclick="showTab('offres')" id="nav-offres" class="active">Offres</a>
+<a href="#" onclick="showTab('candidat')">Candidat</a>
+<a href="#" onclick="showTab('entreprise')">Entreprise</a>
+</nav>
+</header>
 
-<!-- OFFRE 2 -->
-<div class="card">
-<div class="top-row"><span class="tag blue">CDI</span><span class="time">Il y a 5h</span></div>
-<h3>Comptable Senior</h3>
-<div class="meta">📍 Port-Gentil • 💰 650k • 🏢 Pétrolier</div>
-<div class="desc">Sage 100, déclarations fiscales. 3 ans min.</div>
-<div class="apply-grid">
-<a class="btn btn-wa" href="https://wa.me/24100000000?text=Je%20postule%20Comptable">💬 WhatsApp</a>
-<a class="btn btn-email" href="mailto:rh@societe-petrole.ga?subject=Candidature%20Comptable%20Senior">📧 Email RH</a>
-<a class="btn btn-link" href="#" target="_blank">🔗 Voir fiche complète</a>
+<div id="tab-offres">
+<div class="hero">
+<h1 style="font-size:28px">Toutes les offres du Gabon. <br><span style="color:#22c55e">En un seul endroit.</span></h1>
+<p style="opacity:.7;margin-top:10px;font-size:14px">Scanné auto depuis Facebook, LinkedIn, sites d'emploi • MAJ 07:00</p>
+<div style="background:white;border-radius:12px;padding:6px;display:flex;max-width:500px;margin:20px auto 0"><input id="search" style="flex:1;border:0;padding:10px;outline:none" placeholder="Poste, ville, compétence..."><button class="btn btn-dark" onclick="filterJobs()">🔍</button></div>
+</div>
+<div class="container" id="jobs-list">
+<!-- Les offres seront injectées ici par JS depuis Supabase -->
 </div>
 </div>
 
-<!-- OFFRE 3 -->
-<div class="card">
-<div class="top-row"><span class="tag orange">URGENT</span><span class="time">Hier</span></div>
-<h3>Community Manager</h3>
-<div class="meta">📍 Libreville • 💰 300k • 🏢 Agence 241</div>
-<div class="desc">TikTok, Canva, CapCut. 5 marques à gérer.</div>
-<div class="apply-grid">
-<a class="btn btn-wa" href="https://wa.me/24100000000?text=Je%20postule%20CM">💬 WhatsApp</a>
-<a class="btn btn-email" href="mailto:contact@241com.ga?subject=Candidature%20CM&body=Portfolio:%20">📧 Envoyer Portfolio</a>
-<a class="btn btn-link" href="https://forms.gle/" target="_blank">📝 Formulaire Google</a>
+<!-- ESPACE CANDIDAT -->
+<div id="tab-candidat" style="display:none"><div class="container"><h2>Espace Candidat</h2><p style="color:#64748b;margin:8px 0 16px">Gère ton CV et tes candidatures.</p><div class="card"><h3>Mon CV Pro</h3><p style="font-size:13px;color:#64748b;margin:8px 0">Aucun CV pour le moment.</p><a class="btn btn-dark" href="#" onclick="openPack()">Créer mon CV Pro - 1000 FCFA</a></div></div></div>
+
+<!-- ESPACE ENTREPRISE -->
+<div id="tab-entreprise" style="display:none"><div class="container"><h2>Espace Entreprise</h2><p style="color:#64748b;margin:8px 0 16px">Publiez une offre pour 2500 FCFA, visible par 10k chercheurs.</p><div class="card"><h3>Publier une offre</h3><input placeholder="Titre du poste" style="width:100%;padding:12px;border:1px solid #e2e8f0;border-radius:8px;margin:8px 0"><input placeholder="Email RH pour recevoir les CV" style="width:100%;padding:12px;border:1px solid #e2e8f0;border-radius:8px"><button class="btn btn-green" style="width:100%;margin-top:10px" onclick="pay('ENTREPRISE_2500')">Payer 2500 FCFA & Publier</button></div></div></div>
+
+<!-- MODAL DETAIL OFFRE + PACKS -->
+<div id="modal" class="modal" onclick="if(event.target==this)closeModal()">
+<div class="modal-box" id="modal-content">
+<!-- injecté par JS -->
 </div>
 </div>
 
-<div class="footer">Fait à Libreville ❤️<br>© 2026 Gabon Talent OS - Multi-canal</div>
-</div>
+<script>
+// ================= CONFIG PAIEMENT - CHANGE ICI TES LIENS =================
+const PAYMENT_LINKS = {
+  CV_1000: "https://pay.wave.com/TON_LIEN_CV_1000", // Remplace par ton lien Airtel Money / Moov / Wave
+  CV_PACK_2000: "https://pay.wave.com/TON_LIEN_PACK_2000",
+  AUTO_APPLY_5000: "https://pay.wave.com/TON_LIEN_AUTO_5000",
+  ENTREPRISE_2500: "https://pay.wave.com/TON_LIEN_ENTREPRISE_2500"
+};
+function pay(type){ window.open(PAYMENT_LINKS[type], '_blank'); }
+// ============================================================================
+
+const JOBS = [
+  {id:1, title:"Développeur Full-Stack JS", company:"Gabon Talent JS", city:"Libreville", salary:"800k - 1.2M", source:"LinkedIn", tag:"NOUVEAU", color:"green", desc:"Construction de Gabon Talent OS. React / Supabase. Opportunité CTO.", email:"recrutement@gabontalent.ga", link:"https://gabon-talent-js.github.io/gabon-talent-os/"},
+  {id:2, title:"Comptable Senior", company:"TotalEnergies Gabon", city:"Port-Gentil", salary:"650k", source:"Facebook", tag:"CDI", color:"blue", desc:"Sage 100, fiscalité pétrolière. 3 ans min.", email:"rh@total.ga", link:"https://totalenergies.ga/recrutement"},
+  {id:3, title:"Community Manager", company:"Agence 241 Com", city:"Libreville", salary:"300k", source:"Instagram", tag:"URGENT", color:"orange", desc:"Gestion TikTok/Insta pour 5 marques. Canva + CapCut obligatoire.", email:"contact@241com.ga", link:"https://forms.gle/xxx"}
+];
+
+function renderJobs(list){
+  document.getElementById('jobs-list').innerHTML = list.map(j=>`
+    <div class="card" onclick="openJob(${j.id})" style="cursor:pointer">
+      <div style="display:flex;justify-content:space-between"><span style="font-size:10px;font-weight:800;padding:4px 10px;border-radius:20px;background:${j.color=='green'?'#dcfce7':j.color=='blue'?'#dbeafe':'#ffedd5'}">${j.tag} • ${j.source}</span><span style="font-size:12px;color:#94a3b8">Il y a 2h</span></div>
+      <h3 style="margin:8px 0 4px">${j.title}</h3>
+      <div style="font-size:13px;color:#64748b">📍 ${j.city} • 💰 ${j.salary} • 🏢 ${j.company}</div>
+    </div>
+  `).join('');
+}
+renderJobs(JOBS);
+
+function openJob(id){
+  const j = JOBS.find(x=>x.id==id);
+  document.getElementById('modal-content').innerHTML = `
+    <h2>${j.title}</h2><p style="color:#64748b;font-size:13px;margin:6px 0 12px">📍 ${j.city} • ${j.company} • Source: ${j.source}</p>
+    <div style="background:#f8fafc;padding:12px;border-radius:10px;font-size:14px;line-height:1.5">${j.desc}<br><br><b>Lien original:</b> <a href="${j.link}" target="_blank">${j.link}</a></div>
+    <h3 style="margin:18px 0 10px">Choisis ton pack pour postuler :</h3>
+    <div class="grid2">
+      <div class="pack" onclick="pay('CV_1000')"><b>CV Pro</b><br><span style="font-size:22px;font-weight:800">1000</span> FCFA<br><span style="font-size:11px;color:#64748b">Création CV pro PDF</span></div>
+      <div class="pack best" onclick="pay('CV_PACK_2000')"><b>CV + Lien Direct</b><br><span style="font-size:22px;font-weight:800">2000</span> FCFA<br><span style="font-size:11px">CV + envoi auto vers ${j.email}</span></div>
+    </div>
+    <div class="pack" style="margin-top:10px" onclick="pay('AUTO_APPLY_5000')"><b>🔥 Pack Automatique 10 Candidatures</b><br><span style="font-size:22px;font-weight:800">5000</span> FCFA<br><span style="font-size:12px;color:#64748b">On postule pour toi à 10 offres similaires automatiquement</span></div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:16px">
+      <a class="btn btn-white" href="mailto:${j.email}?subject=Candidature ${j.title}">📧 Email direct (gratuit)</a>
+      <a class="btn btn-dark" href="${j.link}" target="_blank">🔗 Voir source</a>
+    </div>
+    <p style="font-size:11px;color:#94a3b8;text-align:center;margin-top:10px">Après paiement, redirection automatique vers le recruteur. Preuve de paiement exigée.</p>
+    <button class="btn btn-white" style="width:100%;margin-top:12px" onclick="closeModal()">Fermer</button>
+  `;
+  document.getElementById('modal').classList.add('active');
+}
+function closeModal(){document.getElementById('modal').classList.remove('active')}
+function openPack(){openJob(1)}
+function showTab(t){document.getElementById('tab-offres').style.display=t=='offres'?'block':'none';document.getElementById('tab-candidat').style.display=t=='candidat'?'block':'none';document.getElementById('tab-entreprise').style.display=t=='entreprise'?'block':'none';document.querySelectorAll('nav a').forEach(a=>a.classList.remove('active'));document.getElementById('nav-'+t)?.classList.add('active')}
+function filterJobs(){const q=document.getElementById('search').value.toLowerCase();renderJobs(JOBS.filter(j=>j.title.toLowerCase().includes(q) || j.city.toLowerCase().includes(q)))}
+</script>
 </body>
 </html>
