@@ -13,3 +13,6 @@ jobs:
           python-version: '3.11'
       - run: pip install supabase
       - run: python scraper.py
+        env:
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_KEY: ${{ secrets.SUPABASE_KEY }}
