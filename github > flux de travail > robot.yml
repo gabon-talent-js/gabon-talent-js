@@ -1,7 +1,7 @@
 name: Robot Gabon Talent
 on:
   push:
-    branches: [principal]
+    branches: [main]
   workflow_dispatch:
 jobs:
   scan:
